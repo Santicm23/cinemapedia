@@ -16,19 +16,19 @@ class TheMovieDbResponse {
     });
 
     factory TheMovieDbResponse.fromJson(Map<String, dynamic> json) => TheMovieDbResponse(
-        dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
+        dates: json["dates"] != null ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
-        results: List<MovieFromMovieDb>.from(json["MovieFromMovieDbs"].map((x) => MovieFromMovieDb.fromJson(x))),
+        results: List<MovieFromMovieDb>.from(json["results"].map((x) => MovieFromMovieDb.fromJson(x))),
         totalPages: json["total_pages"],
-        totalMovieFromMovieDbs: json["total_MovieFromMovieDbs"],
+        totalMovieFromMovieDbs: json["total_results"],
     );
 
     Map<String, dynamic> toJson() => {
         "dates": dates?.toJson(),
         "page": page,
-        "MovieFromMovieDbs": List<dynamic>.from(results.map((x) => x.toJson())),
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
         "total_pages": totalPages,
-        "total_MovieFromMovieDbs": totalMovieFromMovieDbs,
+        "total_results": totalMovieFromMovieDbs,
     };
 }
 
