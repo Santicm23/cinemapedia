@@ -3,14 +3,14 @@ import 'package:cinemapedia/infrastructure/models/moviedb/movie_from_moviedb.dar
 class TheMovieDbResponse {
     final Dates? dates;
     final int page;
-    final List<MovieFromMovieDb> MovieFromMovieDbs;
+    final List<MovieFromMovieDb> results;
     final int totalPages;
     final int totalMovieFromMovieDbs;
 
     TheMovieDbResponse({
         required this.dates,
         required this.page,
-        required this.MovieFromMovieDbs,
+        required this.results,
         required this.totalPages,
         required this.totalMovieFromMovieDbs,
     });
@@ -18,7 +18,7 @@ class TheMovieDbResponse {
     factory TheMovieDbResponse.fromJson(Map<String, dynamic> json) => TheMovieDbResponse(
         dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
-        MovieFromMovieDbs: List<MovieFromMovieDb>.from(json["MovieFromMovieDbs"].map((x) => MovieFromMovieDb.fromJson(x))),
+        results: List<MovieFromMovieDb>.from(json["MovieFromMovieDbs"].map((x) => MovieFromMovieDb.fromJson(x))),
         totalPages: json["total_pages"],
         totalMovieFromMovieDbs: json["total_MovieFromMovieDbs"],
     );
@@ -26,7 +26,7 @@ class TheMovieDbResponse {
     Map<String, dynamic> toJson() => {
         "dates": dates?.toJson(),
         "page": page,
-        "MovieFromMovieDbs": List<dynamic>.from(MovieFromMovieDbs.map((x) => x.toJson())),
+        "MovieFromMovieDbs": List<dynamic>.from(results.map((x) => x.toJson())),
         "total_pages": totalPages,
         "total_MovieFromMovieDbs": totalMovieFromMovieDbs,
     };
