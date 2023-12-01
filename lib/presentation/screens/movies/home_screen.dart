@@ -39,6 +39,10 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if (initialLoading) return const FullScreenLoader();
+
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final upcomingMovies = ref.watch(upcomingMoviesProvider);
@@ -48,12 +52,10 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     return CustomScrollView(
       slivers: [
         const SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: CustomAppbar(),
-            titlePadding: EdgeInsets.only(left: 5, bottom: 10)
-          )
-        ),
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+                title: CustomAppbar(),
+                titlePadding: EdgeInsets.only(left: 5, bottom: 10))),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -65,24 +67,31 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                     movies: nowPlayingMovies,
                     title: 'En cines',
                     subtitle: 'Jueves 30',
-                    loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                    loadNextPage: () => ref
+                        .read(nowPlayingMoviesProvider.notifier)
+                        .loadNextPage(),
                   ),
                   MovieHorizontalListview(
                     movies: upcomingMovies,
                     title: 'Próximamente',
                     subtitle: 'Jueves 30',
-                    loadNextPage: () => ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
+                    loadNextPage: () => ref
+                        .read(upcomingMoviesProvider.notifier)
+                        .loadNextPage(),
                   ),
                   MovieHorizontalListview(
                     movies: popularMovies,
                     title: 'Populares',
-                    loadNextPage: () => ref.read(popularMoviesProvider.notifier).loadNextPage(),
+                    loadNextPage: () =>
+                        ref.read(popularMoviesProvider.notifier).loadNextPage(),
                   ),
                   MovieHorizontalListview(
                     movies: topRatedMovies,
                     title: 'Mejor valoradas',
                     subtitle: 'Desde siempre',
-                    loadNextPage: () => ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
+                    loadNextPage: () => ref
+                        .read(topRatedMoviesProvider.notifier)
+                        .loadNextPage(),
                   ),
                   const SizedBox(height: 10),
                 ],
