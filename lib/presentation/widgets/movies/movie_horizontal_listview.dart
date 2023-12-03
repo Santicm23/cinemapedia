@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
+import 'package:go_router/go_router.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
@@ -20,7 +21,8 @@ class MovieHorizontalListview extends StatefulWidget {
   });
 
   @override
-  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+  State<MovieHorizontalListview> createState() =>
+      _MovieHorizontalListviewState();
 }
 
 class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
@@ -33,7 +35,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
 
-      if (scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels + 200 >=
+          scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
     });
@@ -95,15 +98,20 @@ class _Slide extends StatelessWidget {
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
                     return const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Center(child: CircularProgressIndicator(strokeWidth: 2,)));
+                        padding: EdgeInsets.all(8),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        )));
                   }
-                  return FadeIn(child: child);
+                  return GestureDetector(
+                    onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(child: child),
+                  );
                 },
               ),
             ),
           ),
-
           const SizedBox(height: 5),
           SizedBox(
             width: 150,
@@ -114,17 +122,21 @@ class _Slide extends StatelessWidget {
               style: textStyles.titleSmall,
             ),
           ),
-
           SizedBox(
             width: 150,
             child: Row(
               children: [
                 Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
                 const SizedBox(width: 3),
-                Text('${movie.voteAverage}', style: textStyles.bodyMedium?.copyWith(color: Colors.yellow.shade800)),
+                Text('${movie.voteAverage}',
+                    style: textStyles.bodyMedium
+                        ?.copyWith(color: Colors.yellow.shade800)),
                 // const SizedBox(width: 10),
                 const Spacer(),
-                Text(HumanFormats.number(movie.popularity), style: textStyles.bodySmall,),
+                Text(
+                  HumanFormats.number(movie.popularity),
+                  style: textStyles.bodySmall,
+                ),
               ],
             ),
           )
